@@ -83,6 +83,7 @@
         <p id="resultMessage"></p>
         <p class="details">כתובת IP: <span id="fakeIP"></span></p>
         <p class="details">כתובת DNS: <span id="fakeDNS"></span></p>
+        <p class="details">כתובת Gateway: <span id="fakeGateway"></span></p>
     </div>
 
     <script>
@@ -99,15 +100,25 @@
         const initialPopup = document.getElementById('initialPopup');
         initialPopup.style.display = 'block';
 
-        // יצירת IP מומצא שנראה אמיתי
+        // יצירת כתובת IP מומצאת הגיונית
         function generateFakeIP() {
             return `${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
         }
 
-        // יצירת DNS מומצא שנראה הגיוני
+        // יצירת DNS מומצא הגיוני (דומה לשרתי DNS אמיתיים)
         function generateFakeDNS() {
-            const domains = ['cloudflare-dns.com', 'google-public-dns-a.google.com', 'dns.israel-police.gov.il', 'secure-dns.net', 'cyberunit-il.org'];
-            return domains[Math.floor(Math.random() * domains.length)];
+            const dnsExamples = [
+                `8.8.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`, // דומה ל-Google DNS
+                `1.1.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`, // דומה ל-Cloudflare DNS
+                `192.168.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`, // דומה לרשת מקומית
+                `10.0.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}` // דומה לרשת פנימית
+            ];
+            return dnsExamples[Math.floor(Math.random() * dnsExamples.length)];
+        }
+
+        // יצירת Gateway מומצא הגיוני
+        function generateFakeGateway() {
+            return `192.168.${Math.floor(Math.random() * 10)}.${Math.floor(Math.random() * 256)}`; // דומה ל-Gateway ברשתות ביתיות
         }
 
         // הצגת תוצאה לאחר 2 שניות
@@ -117,8 +128,10 @@
             const resultMessage = document.getElementById('resultMessage');
             const fakeIP = document.getElementById('fakeIP');
             const fakeDNS = document.getElementById('fakeDNS');
+            const fakeGateway = document.getElementById('fakeGateway');
             fakeIP.textContent = generateFakeIP();
             fakeDNS.textContent = generateFakeDNS();
+            fakeGateway.textContent = generateFakeGateway();
 
             // יחס של 1:3 לתוצאה תקינה ו-2:3 לתוצאה מפחידה
             const random = Math.random();
